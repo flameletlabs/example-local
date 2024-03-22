@@ -29,7 +29,6 @@ CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/pl
 
 CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     buluma.bootstrap \
-    buluma.timezone \
     buluma.rsyslog \
     buluma.cron \
     buluma.update \
