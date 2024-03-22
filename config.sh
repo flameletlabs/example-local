@@ -22,13 +22,15 @@ CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/pl
 
 # CFG_ANSIBLE_OPTIONS="-u ansible --private-key ${HOME}/.ssh/id_rsa"
 
-# CFG_ANSIBLE_GALAXY_COLLECTIONS_INSTALL="\
-#     community.docker"
+CFG_ANSIBLE_GALAXY_COLLECTIONS_INSTALL="\
+    # community.general"
+    # community.docker"
 
 # CFG_ANSIBLE_GALAXY_COLLECTIONS_REMOVE=""
 
 CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     buluma.bootstrap \
+    buluma.timezone \
     buluma.rsyslog \
     buluma.cron \
     buluma.update \
