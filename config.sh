@@ -38,7 +38,7 @@ CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     singleplatform-eng.users \
     gantsign.oh-my-zsh \
     hifis.unattended_upgrades \
-    hspaans.package==1.0.4 \
+    hspaans.package,v1.0.4 \
     stafwag.package_update \
     trombik.apt_repo \
     trombik.pf \
