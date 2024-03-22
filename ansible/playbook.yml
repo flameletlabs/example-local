@@ -3,7 +3,7 @@
     - { role: buluma.bootstrap, tags: [ bootstrap ] }
     # - { role: buluma.locale, tags: [ locale ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     # - { role: buluma.common, tags: [ common ] }
-    # - { role: buluma.timezone, tags: [ timezone ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
+    - { role: buluma.timezone, tags: [ timezone ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     - { role: buluma.rsyslog, tags: [ rsyslog], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     - { role: buluma.cron, tags: [ cron], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     - { role: buluma.update, tags: [ update ] }
