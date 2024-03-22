@@ -1,6 +1,6 @@
 - hosts: all
   roles:
-    - { role: buluma.bootstrap, tags: [ bootstrap ] }
+    - { role: buluma.bootstrap, tags: [ bootstrap ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     # - { role: buluma.locale, tags: [ locale ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     # - { role: buluma.common, tags: [ common ] }
     - { role: buluma.timezone, tags: [ timezone ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
