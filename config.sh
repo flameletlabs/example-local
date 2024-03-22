@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 
-CFG_TENANT="local"
+CFG_TENANT="example-local"
 
 # CFG_SSH_CONTROLLER="ansible@controller.local"
 # CFG_SSH_OPTIONS="-i ${HOME}/.ssh/ansible/id_rsa"
