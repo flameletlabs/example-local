@@ -8,26 +8,26 @@ all:
 
     locale_lang: 'en_US.UTF-8'
 
-    # default_sudo_group:
-    #   FreeBSD: wheel
-    #   OpenBSD: wheel
-    #   Debian: sudo
-    #   RedHat: wheel
-    # default_sudo_sudoersd_dir:
-    #   FreeBSD: '/usr/local/etc/sudoers.d'
-    #   OpenBSD: '/etc/sudoers.d'
-    #   Debian: '/etc/sudoers.d'
-    #   RedHat: '/etc/sudoers.d'
-    # default_sudo_sudoersd_group:
-    #   FreeBSD: wheel
-    #   OpenBSD: wheel
-    #   Debian: root
-    #   RedHat: root
-    # default_zsh_path:
-    #   FreeBSD: /usr/local/bin/zsh
-    #   OpenBSD: /usr/local/bin/zsh
-    #   Debian: /usr/bin/zsh
-    #   RedHat: /usr/bin/zsh
+    default_sudo_group: # singleplatform-eng.users
+      FreeBSD: wheel
+      OpenBSD: wheel
+      Debian: sudo
+      RedHat: wheel
+    default_sudo_sudoersd_dir:
+      FreeBSD: '/usr/local/etc/sudoers.d'
+      OpenBSD: '/etc/sudoers.d'
+      Debian: '/etc/sudoers.d'
+      RedHat: '/etc/sudoers.d'
+    default_sudo_sudoersd_group:
+      FreeBSD: wheel
+      OpenBSD: wheel
+      Debian: root
+      RedHat: root
+    default_zsh_path:
+      FreeBSD: /usr/local/bin/zsh
+      OpenBSD: /usr/local/bin/zsh
+      Debian: /usr/bin/zsh
+      RedHat: /usr/bin/zsh
 
     sudo_grouplist:
       - name: '{{ default_sudo_group[ansible_os_family] }}'
