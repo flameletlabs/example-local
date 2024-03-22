@@ -31,6 +31,7 @@ CFG_ANSIBLE_GALAXY_COLLECTIONS_INSTALL="\
 
 CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     buluma.bootstrap \
+    buluma.timezone \
     buluma.rsyslog \
     buluma.cron \
     buluma.update \
