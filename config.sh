@@ -15,10 +15,10 @@ CFG_FLAMELET_TENANT_BRANCH="main"
 # CFG_ANSIBLE_INVENTORY_REPO=""
 # CFG_ANSIBLE_PLAYBOOK_REPO=""
 
-CFG_ANSIBLE_CONFIG="${HOME}/.flamelet/tenant/example-local/ansible/ansible.cfg"
+CFG_ANSIBLE_CONFIG="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/ansible.cfg"
 
-CFG_ANSIBLE_INVENTORY="${HOME}/.flamelet/tenant/example-local/ansible/inventory.yml"
-CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/example-local/ansible/playbook.yml"
+CFG_ANSIBLE_INVENTORY="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/inventory.yml"
+CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/playbook.yml"
 
 # CFG_ANSIBLE_OPTIONS="-u ansible --private-key ${HOME}/.ssh/id_rsa"
 
