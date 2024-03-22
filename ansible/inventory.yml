@@ -1,0 +1,60 @@
+all:
+
+  vars:
+    ansible_become: true
+    # ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    # ansible_ssh_private_key_file: '~/.ssh/id_rsa'
+    # ansible_ssh_user: 'ansible'
+
+    locale_lang: 'en_US.UTF-8'
+
+    # default_sudo_group:
+    #   FreeBSD: wheel
+    #   OpenBSD: wheel
+    #   Debian: sudo
+    #   RedHat: wheel
+    # default_sudo_sudoersd_dir:
+    #   FreeBSD: '/usr/local/etc/sudoers.d'
+    #   OpenBSD: '/etc/sudoers.d'
+    #   Debian: '/etc/sudoers.d'
+    #   RedHat: '/etc/sudoers.d'
+    # default_sudo_sudoersd_group:
+    #   FreeBSD: wheel
+    #   OpenBSD: wheel
+    #   Debian: root
+    #   RedHat: root
+    # default_zsh_path:
+    #   FreeBSD: /usr/local/bin/zsh
+    #   OpenBSD: /usr/local/bin/zsh
+    #   Debian: /usr/bin/zsh
+    #   RedHat: /usr/bin/zsh
+
+    sudo_grouplist:
+      - name: '{{ default_sudo_group[ansible_os_family] }}'
+        sudoers_file: '00{{ default_sudo_group[ansible_os_family] }}'
+        sudo: { hosts: ALL, as: ALL, commands: ALL, nopasswd: yes }
+    sudo_sudoersd_dir: '{{ default_sudo_sudoersd_dir[ansible_os_family] }}'
+    sudo_sudoersd_group: '{{ default_sudo_sudoersd_group[ansible_os_family] }}'
+
+    users:
+      - username: ansible
+        name: 'Ansible'
+        password: '$y$j9T$iteDYVjko38j4UtdTcdFz/$g7wQJ9ypd6dBBOuPVU9Wd8OZAmKy5LyhkNI2Uvd1/C6'
+        groups: [ '{{ default_sudo_group[ansible_os_family] }}' ]
+        append: true
+        shell: '{{ default_zsh_path[ansible_os_family] }}'
+        ssh_key:
+          - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyRck5JFqvwIDoUdUYiQypEzu5XEBF/oxH780Gt/bHYYqbwfmdGiMmWJ5WxNYmYD3wnOJuDp9KHwi9nJM59WMlr484tUT258ap3VHBohKEX5PohcU0zfIL/gK3/1CHlnbcZh3ayJgwrb4fuQImWSSHwqlffo2iUvQvLmNUa00kPgzmEiwMIzuvl1SHCuo477pp9QrjBXRoPUOVjBd0QXSO7wJMlJnuUoUfVNpzoZjbp22SBUeTrXSMthN91BEeU+CEOs4liRUUuZCc0GuRVAd89iAVKVT5xTELSzBpgcs2a0SVrPgXY5JPUkh9HOxnxaUmebEDsuwo0CfGIOQqht8t flamelet@flameletlabs.github.io'
+
+  children:
+
+    production:
+
+      vars:
+        update_reboot: yes
+
+      hosts:
+
+        localhost:
+          ansible_connection: local
+          # ansible_become: false

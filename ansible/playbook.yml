@@ -1,0 +1,210 @@
+- hosts: all
+  roles:
+    - { role: buluma.bootstrap, tags: [ bootstrap ] }
+    # - { role: buluma.locale, tags: [ locale ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
+    # - { role: buluma.common, tags: [ common ] }
+    - { role: buluma.timezone, tags: [ timezone ], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
+    - { role: buluma.rsyslog, tags: [ rsyslog], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
+    - { role: buluma.cron, tags: [ cron], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
+    - { role: buluma.update, tags: [ update ] }
+
+    - { role: grog.sudo, tags: [ sudo ] }
+    # - { role: grog.package, tags: [ packages ] }
+
+    - { role: ipr-cnrs.nftables, tags: [ nftables ], when: "ansible_os_family == 'Debian'" }
+
+    # - role: willshersystems.sshd
+
+    - role: singleplatform-eng.users
+
+    - { role: gantsign.oh-my-zsh, tags: [ ohmyzsh ], oh_my_zsh_zsh_path: '/usr/local/bin/zsh', when: "ansible_os_family == 'OpenBSD'" }
+    - { role: gantsign.oh-my-zsh, tags: [ ohmyzsh ], when: "ansible_os_family != 'OpenBSD'" }
+
+    - { role: hifis.unattended_upgrades, tags: [ unattended ], when: "ansible_os_family == 'Debian'" }
+
+    - { role: hspaans.package, tags: [ packages ] }
+
+    - { role: stafwag.package_update, tags: [ update-bsd ] }
+
+    - { role: trombik.apt_repo, tags: [ apt-repo ], when: ansible_distribution == 'Debian' }
+    - { role: trombik.pf, tags: [ pf ] }
+    - { role: trombik.opensmtpd, tags: [ opensmtpd ] }
+    # - { role: trombik.node_exporter, tags: [ node_exporter ] }
+    # - { role: trombik.unbound, tags: [ unbound ] }
+    # - { role: trombik.monit, tags: [ monit ] }
+
+    - { role: geerlingguy.ntp, tags: [ ntp ], when: ntp_enabled | bool }
+    # - { role: geerlingguy.node_exporter, tags: [ node_exporter ] }
+    - { role: geerlingguy.docker, tags: [ docker ]  }
+    - { role: geerlingguy.nginx, tags: [ nginx ] }
+
+    # - { role: checkmk.general.agent, tags: [ checkmk-agent ] }
+    # - { role: checkmk.general.server, tags: [ checkmk-server ] }
+
+  post_tasks:
+    - name: "Ansible | List all known variables and facts"
+      debug:
+        var: hostvars[inventory_hostname]
+      tags: [ 'debug' ]
+
+    - ansible.builtin.user:
+        name: '{{ ansible_env.SUDO_USER }}'
+        state: present
+      register: user_info
+      check_mode: true
+      tags: [ 'always' ]
+      when: "'openwrt' not in group_names"
+
+    - name: timezone
+      community.general.timezone: name='{{ timezone }}'
+      tags: [ 'post', 'timezone' ]
+
+    - name: file
+      ansible.builtin.file: src='{{ item.src|default("") }}' path='{{ item.path }}' recurse='{{ item.recurse|default(false) }}' force='{{ item.force|default(false) }}' state='{{ item.state }}' owner='{{ item.owner }}' group='{{ item.group }}' mode='{{ item.mode }}' modification_time='{{ item.modification_time|default("preserve") }}' access_time='{{ item.access_time|default("preserve") }}'
+      loop: '{{ conf_file|default([]) }}'
+      tags: [ 'post', 'file' ]
+
+    - name: lineinfile
+      ansible.builtin.lineinfile: regexp='{{ item.regexp }}' line='{{ item.line }}' state='{{ item.state }}' path='{{ item.path }}' validate='{{ item.validate|default("") }}' create=true
+      loop: '{{ conf_lineinfile|default([]) }}'
+      register: 'conf_lineinfile_changed'
+      tags: [ 'post', 'lineinfile' ]
+
+    - name: blockinfile
+      ansible.builtin.blockinfile: block='{{ item.block }}' group='{{ item.group }}' mode='{{ item.mode }}' state='{{ item.state }}' path='{{ item.path }}' validate='{{ item.validate|default("") }}' create=true
+      loop: '{{ conf_blockinfile|default([]) }}'
+      register: 'conf_blockinfile_changed'
+      tags: [ 'post', 'blockinfile' ]
+
+    - name: copy
+      ansible.builtin.copy: content='{{ item.content }}' group='{{ item.group }}' mode='{{ item.mode }}' src='{{ item.src|default("") }}' dest='{{ item.dest }}' validate='{{ item.validate|default("") }}'
+      loop: '{{ conf_copy|default([]) }}'
+      register: 'conf_copy_changed'
+      tags: [ 'post', 'copy' ]
+
+    - name: shell
+      ansible.builtin.shell: '{{ item.cmd|default("") }}'
+      args: '{{ item.args|default({}) }}'
+      delegate_to: '{{ item.delegate_to|default(inventory_hostname) }}'
+      loop: '{{ conf_shell|default([]) }}'
+      tags: [ 'post', 'shell' ]
+
+    - name: raw
+      ansible.builtin.raw: '{{ item.name|default("") }}'
+      loop: '{{ conf_raw|default([]) }}'
+      tags: [ 'post', 'raw' ]
+
+    - name: cron
+      ansible.builtin.cron: name="{{ item.name }}" minute="{{ item.minute|default('*') }}" hour="{{ item.hour|default('*') }}" day="{{ item.day|default('*') }}" month="{{ item.month|default('*') }}" weekday="{{ item.weekday|default('*') }}" user="{{ item.user|default('root') }}" job="{{ item.job }}" disabled="{{ item.disabled|default('false') }}" env="{{ item.env|default('false') }}" cron_file="{{ item.cron_file|default('') }}" state="{{ item.state|default('present') }}"
+      loop: "{{ conf_cron|default([]) }}"
+      tags: ['post', 'cron']
+
+    - name: Store services to restart (lineinfile)
+      set_fact: services_to_restart_lineinfile="{{ services_to_restart_lineinfile | default([]) + [item.service] }}"
+      loop: "{{ conf_lineinfile }}"
+      when: conf_lineinfile_changed.changed and item.service is defined and item.service != ""
+      tags: [ 'post', 'service', 'lineinfile' ]
+
+    - name: Store services to restart (blockinfile)
+      set_fact: services_to_restart_blockinfile="{{ services_to_restart_blockinfile | default([]) + [item.service] }}"
+      loop: "{{ conf_blockinfile }}"
+      when: conf_blockinfile_changed.changed and item.service is defined and item.service != ""
+      tags: [ 'post', 'service', 'blockinfile' ]
+
+    - name: Store services to restart (copy)
+      set_fact: services_to_restart_copy="{{ services_to_restart_copy | default([]) + [item.service] }}"
+      loop: "{{ conf_copy }}"
+      when: conf_copy_changed.changed and item.service is defined and item.service != ""
+      tags: [ 'post', 'service', 'copy' ]
+
+    - name: Restart services (lineinfile)
+      ansible.builtin.service: name="{{ item }}" state=restarted
+      loop: "{{ services_to_restart_lineinfile | unique }}"
+      when: conf_lineinfile_changed.changed | bool and services_to_restart_lineinfile is defined
+      tags: [ 'post', 'service', 'lineinfile' ]
+
+    - name: Restart services (blockinfile)
+      ansible.builtin.service: name="{{ item }}" state=restarted
+      loop: "{{ services_to_restart_blockinfile | unique }}"
+      when: conf_blockinfile_changed.changed | bool and services_to_restart_blockinfile is defined
+      tags: [ 'post', 'service', 'blockinfile' ]
+
+    - name: Restart services (copy)
+      ansible.builtin.service: name="{{ item }}" state=restarted
+      loop: "{{ services_to_restart_copy | unique }}"
+      when: conf_copy_changed.changed | bool and services_to_restart_copy is defined
+      tags: [ 'post', 'service', 'copy' ]
+
+    - name: Store commands to exec (blockinfile)
+      set_fact: commands_to_exec_blockinfile="{{ commands_to_exec_blockinfile | default([]) + [item.command] }}"
+      loop: "{{ conf_blockinfile }}"
+      when: conf_blockinfile_changed.changed and item.command is defined and item.command != ""
+      tags: [ 'post', 'command', 'blockinfile' ]
+
+    - name: Commands exec (blockinfile)
+      ansible.builtin.command: "{{ item }}"
+      loop: "{{ commands_to_exec_blockinfile | unique }}"
+      when: conf_blockinfile_changed.changed | bool and commands_to_exec_blockinfile is defined
+      tags: [ 'post', 'command', 'blockinfile' ]
+
+    - name: Store commands to exec (copy)
+      set_fact: commands_to_exec_copy="{{ commands_to_exec_copy | default([]) + [item.command] }}"
+      loop: "{{ conf_copy }}"
+      when: conf_copy_changed.changed and item.command is defined and item.command != ""
+      tags: [ 'post', 'command', 'copy' ]
+
+    - name: Commands exec (copy)
+      ansible.builtin.command: "{{ item }}"
+      loop: "{{ commands_to_exec_copy | unique }}"
+      when: conf_copy_changed.changed | bool and commands_to_exec_copy is defined
+      tags: [ 'post', 'command', 'copy' ]
+
+- hosts: docker
+  roles:
+    - { role: geerlingguy.docker, tags: [ docker ]  }
+    - { role: geerlingguy.pip, tags: [ pip ]  }
+  post_tasks:
+    - name: Create persistent storage folders
+      file: path=/{{ conf_docker_persistent_storage_path }}/{{ item }} state=directory owner=root group=docker mode=0755
+      with_items: '{{ conf_docker_storage }}'
+      tags: [ 'post', 'docker-compose' ]
+    - name: Run docker-compose
+      community.docker.docker_compose:
+        project_name: "{{ item.value.project_name|default(item.key) }}"
+        state: "{{ item.value.state }}"
+        remove_orphans: true
+        definition: "{{ item.value.definition|from_yaml }}"
+      with_dict: '{{ conf_docker_compose }}'
+      tags: [ 'post', 'docker-compose' ]
+
+- hosts: [ 'freebsd' ]
+  post_tasks:
+    - name: sysrc
+      community.general.sysrc: name='{{ item.name }}' state='{{ item.state }}' value='{{ item.value }}' path='{{ item.path }}'
+      loop: '{{ conf_sysrc|default([]) }}'
+      tags: [ 'post', 'sysrc' ]
+
+    - name: lineinfile
+      ansible.builtin.lineinfile: regexp='{{ item.regexp }}' line='{{ item.line }}' state='{{ item.state }}' path='{{ item.path }}' validate='{{ item.validate|default("") }}' create=true
+      loop: '{{ conf_lineinfile|default([]) }}'
+      register: 'conf_lineinfile_changed'
+      tags: [ 'post', 'lineinfile' ]
+
+    - name: Store services to restart
+      set_fact: services_to_restart="{{ services_to_restart | default([]) + [item.service] }}"
+      loop: "{{ conf_lineinfile }}"
+      when: conf_lineinfile_changed.changed
+      tags: [ 'post', 'service', 'lineinfile' ]
+
+    - name: Restart services
+      ansible.builtin.service: name="{{ item }}" state=restarted
+      loop: "{{ services_to_restart | unique }}"
+      when: conf_lineinfile_changed.changed | bool and services_to_restart is defined
+      tags: [ 'post', 'service', 'lineinfile' ]
+
+# - hosts: openwrt
+#   roles:
+#     - { role: gekmihesg.openwrt }
+
+- hosts: localhost
+  gather_facts: false
