@@ -45,6 +45,7 @@ CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     trombik.pf \
     trombik.opensmtpd \
     geerlingguy.ntp \
+    geerlingguy.pip \
     geerlingguy.docker \
     geerlingguy.nginx"
 
