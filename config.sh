@@ -28,6 +28,23 @@ CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/pl
 # CFG_ANSIBLE_GALAXY_COLLECTIONS_REMOVE=""
 
 CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
-    buluma.bootstrap"
+    buluma.bootstrap \
+    buluma.timezone \
+    buluma.rsyslog \
+    buluma.cron \
+    buluma.update \
+    grog.sudo \
+    ipr-cnrs.nftables \
+    singleplatform-eng.users \
+    gantsign.oh-my-zsh \
+    hifis.unattended_upgrades \
+    hspaans.package \
+    stafwag.package_update \
+    trombik.apt_repo \
+    trombik.pf \
+    trombik.opensmtpd \
+    geerlingguy.ntp \
+    geerlingguy.docker \
+    geerlingguy.nginx"
 
 # CFG_ANSIBLE_GALAXY_ROLES_REMOVE=""
