@@ -23,6 +23,7 @@ CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/pl
 # CFG_ANSIBLE_OPTIONS="-u ansible --private-key ${HOME}/.ssh/id_rsa"
 
 CFG_ANSIBLE_GALAXY_COLLECTIONS_INSTALL="\
+    ansible.posix \
     community.general \
     community.docker"
 
