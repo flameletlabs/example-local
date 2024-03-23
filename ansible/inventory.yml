@@ -49,7 +49,7 @@ all:
     default_package_install:
       FreeBSD: [ 'sudo', 'bash', 'zsh', 'vim', 'tree', 'rsync', 'mtr', 'uptimed', 'git-lite', 'tmux', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnu-watch', 'cmdwatch' ]
       OpenBSD: [ 'sudo', 'bash', 'zsh', 'vim--no_x11', 'tree', 'rsync--', 'mtr--', 'uptimed', 'git', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnuwatch' ]
-      Debian: [ 'sudo', 'bash', 'zsh' ]
+      Debian: [ sudo, bash, zsh, tree, rsync, git, tmux, curl, netcat-openbsd, net-tools, wget, htop, ccze, ncdu, bsd-mailx, mtr-tiny, python3 ]
       RedHat: [ 'sudo', 'bash', 'zsh' ]
 
     # package_install_default:
