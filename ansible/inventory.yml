@@ -8,16 +8,16 @@ all:
 
     locale_lang: 'en_US.UTF-8'
 
-    default_sudo_sudoersd_dir: # grog.sudo
-      FreeBSD: '/usr/local/etc/sudoers.d'
-      OpenBSD: '/etc/sudoers.d'
-      Debian: '/etc/sudoers.d'
-      RedHat: '/etc/sudoers.d'
-    default_sudo_sudoersd_group:
-      FreeBSD: wheel
-      OpenBSD: wheel
-      Debian: root
-      RedHat: root
+    # default_sudo_sudoersd_dir: # grog.sudo
+    #   FreeBSD: '/usr/local/etc/sudoers.d'
+    #   OpenBSD: '/etc/sudoers.d'
+    #   Debian: '/etc/sudoers.d'
+    #   RedHat: '/etc/sudoers.d'
+    # default_sudo_sudoersd_group:
+    #   FreeBSD: wheel
+    #   OpenBSD: wheel
+    #   Debian: root
+    #   RedHat: root
 
     default_sudo_group: # singleplatform-eng.users
       FreeBSD: wheel

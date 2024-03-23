@@ -35,8 +35,6 @@ CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     buluma.rsyslog \
     buluma.cron \
     buluma.update \
-    grog.package \
-    grog.sudo \
     ipr-cnrs.nftables \
     singleplatform-eng.users \
     gantsign.oh-my-zsh \
@@ -50,5 +48,8 @@ CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     geerlingguy.pip \
     geerlingguy.docker \
     geerlingguy.nginx"
+
+    # grog.package \
+    # grog.sudo \
 
 # CFG_ANSIBLE_GALAXY_ROLES_REMOVE=""
