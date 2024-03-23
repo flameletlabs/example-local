@@ -8,12 +8,7 @@ all:
 
     locale_lang: 'en_US.UTF-8'
 
-    default_sudo_group: # singleplatform-eng.users
-      FreeBSD: wheel
-      OpenBSD: wheel
-      Debian: sudo
-      RedHat: wheel
-    default_sudo_sudoersd_dir:
+    default_sudo_sudoersd_dir: # grog.sudo
       FreeBSD: '/usr/local/etc/sudoers.d'
       OpenBSD: '/etc/sudoers.d'
       Debian: '/etc/sudoers.d'
@@ -23,11 +18,23 @@ all:
       OpenBSD: wheel
       Debian: root
       RedHat: root
+
+    default_sudo_group: # singleplatform-eng.users
+      FreeBSD: wheel
+      OpenBSD: wheel
+      Debian: sudo
+      RedHat: wheel
     default_zsh_path:
       FreeBSD: /usr/local/bin/zsh
       OpenBSD: /usr/local/bin/zsh
       Debian: /usr/bin/zsh
       RedHat: /usr/bin/zsh
+
+    default_package_install: # hspaans.package
+      FreeBSD: [ 'sudo', 'bash', 'zsh', 'vim', 'tree', 'rsync', 'mtr', 'uptimed', 'git-lite', 'tmux', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnu-watch', 'cmdwatch' ]
+      OpenBSD: [ 'sudo', 'bash', 'zsh', 'vim--no_x11', 'tree', 'rsync--', 'mtr--', 'uptimed', 'git', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnuwatch' ]
+      Debian: [ sudo, bash, zsh, tree, rsync, git, tmux, curl, netcat-openbsd, net-tools, wget, htop, ccze, ncdu, bsd-mailx, mtr-tiny, python3 ]
+      RedHat: [ 'sudo', 'bash', 'zsh' ]
 
     sudo_grouplist:
       - name: '{{ default_sudo_group[ansible_os_family] }}'
@@ -45,12 +52,6 @@ all:
         shell: '{{ default_zsh_path[ansible_os_family] }}'
         ssh_key:
           - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyRck5JFqvwIDoUdUYiQypEzu5XEBF/oxH780Gt/bHYYqbwfmdGiMmWJ5WxNYmYD3wnOJuDp9KHwi9nJM59WMlr484tUT258ap3VHBohKEX5PohcU0zfIL/gK3/1CHlnbcZh3ayJgwrb4fuQImWSSHwqlffo2iUvQvLmNUa00kPgzmEiwMIzuvl1SHCuo477pp9QrjBXRoPUOVjBd0QXSO7wJMlJnuUoUfVNpzoZjbp22SBUeTrXSMthN91BEeU+CEOs4liRUUuZCc0GuRVAd89iAVKVT5xTELSzBpgcs2a0SVrPgXY5JPUkh9HOxnxaUmebEDsuwo0CfGIOQqht8t flamelet@flameletlabs.github.io'
-
-    default_package_install:
-      FreeBSD: [ 'sudo', 'bash', 'zsh', 'vim', 'tree', 'rsync', 'mtr', 'uptimed', 'git-lite', 'tmux', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnu-watch', 'cmdwatch' ]
-      OpenBSD: [ 'sudo', 'bash', 'zsh', 'vim--no_x11', 'tree', 'rsync--', 'mtr--', 'uptimed', 'git', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnuwatch' ]
-      Debian: [ sudo, bash, zsh, tree, rsync, git, tmux, curl, netcat-openbsd, net-tools, wget, htop, ccze, ncdu, bsd-mailx, mtr-tiny, python3 ]
-      RedHat: [ 'sudo', 'bash', 'zsh' ]
 
     # package_install_default:
     #  FreeBSD: "{{ default_package_install['FreeBSD']|default([]) + ['btop'] }}"
