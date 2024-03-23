@@ -52,8 +52,8 @@ all:
       Debian: [ 'sudo', 'bash', 'zsh' ]
       RedHat: [ 'sudo', 'bash', 'zsh' ]
 
-    # package_install_default:
-    #  FreeBSD: "{{ default_package_install['FreeBSD']|default([]) + ['btop'] }}"
+    package_install_default:
+     FreeBSD: "{{ default_package_install['FreeBSD']|default([]) + ['btop'] }}"
 
     # package_install_default['FreeBSD']: "{{ default_package_install['FreeBSD']|default([]) + ['btop'] }}"
 
