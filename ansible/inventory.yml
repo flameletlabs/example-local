@@ -46,7 +46,7 @@ all:
         ssh_key:
           - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyRck5JFqvwIDoUdUYiQypEzu5XEBF/oxH780Gt/bHYYqbwfmdGiMmWJ5WxNYmYD3wnOJuDp9KHwi9nJM59WMlr484tUT258ap3VHBohKEX5PohcU0zfIL/gK3/1CHlnbcZh3ayJgwrb4fuQImWSSHwqlffo2iUvQvLmNUa00kPgzmEiwMIzuvl1SHCuo477pp9QrjBXRoPUOVjBd0QXSO7wJMlJnuUoUfVNpzoZjbp22SBUeTrXSMthN91BEeU+CEOs4liRUUuZCc0GuRVAd89iAVKVT5xTELSzBpgcs2a0SVrPgXY5JPUkh9HOxnxaUmebEDsuwo0CfGIOQqht8t flamelet@flameletlabs.github.io'
 
-    default_package_install:
+    package_install_default:
       FreeBSD: [ 'sudo', 'bash', 'zsh', 'vim', 'tree', 'rsync', 'mtr', 'uptimed', 'git-lite', 'tmux', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnu-watch', 'cmdwatch' ]
       OpenBSD: [ 'sudo', 'bash', 'zsh', 'vim--no_x11', 'tree', 'rsync--', 'mtr--', 'uptimed', 'git', 'curl', 'wget', 'htop', 'ccze', 'ncdu', 'gnuwatch' ]
       Debian: [ 'sudo', 'bash', 'zsh' ]
@@ -55,7 +55,8 @@ all:
     # package_install_default[ansible_os_family]: "{{ default_package_install[ansible_os_family]|default([]) }}"
     # package_install_default['FreeBSD']: "{{ default_package_install['FreeBSD'] + ['btop'] }}"
 
-    package_install_default[FreeBSD]: "{{ default_package_install['FreeBSD'] + ['btop'] }}"
+    package_install_default:
+      FreeBSD: "{{ package_install_default['FreeBSD'] + ['btop'] }}"
 
     package_install: "{{ package_install_default[ansible_os_family] }}"
 
