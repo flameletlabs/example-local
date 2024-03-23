@@ -35,7 +35,6 @@ CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     buluma.rsyslog \
     buluma.cron \
     buluma.update \
-    grog.sudo \
     ipr-cnrs.nftables \
     singleplatform-eng.users \
     gantsign.oh-my-zsh \
