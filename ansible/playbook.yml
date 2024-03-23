@@ -8,7 +8,7 @@
     - { role: buluma.cron, tags: [ cron], when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian' }
     - { role: buluma.update, tags: [ update ] }
 
-    - { role: grog.package } # dependecy for grog.sudo
+    - { role: grog.package, tags: [ sudo ] } # dependecy for grog.sudo
     - { role: grog.sudo, tags: [ sudo ] }
 
     - { role: ipr-cnrs.nftables, tags: [ nftables ], when: "ansible_os_family == 'Debian'" }
