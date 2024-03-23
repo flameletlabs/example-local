@@ -55,7 +55,7 @@ all:
     # package_install_default[ansible_os_family]: "{{ default_package_install[ansible_os_family]|default([]) }}"
     package_install_default['FreeBSD']: "{{ default_package_install['FreeBSD']|default([]) + ['btop'] }}"
 
-    package_install: "{{ package_install_default[ansible_os_family]|default_package_install[ansible_os_family]) }}"
+    package_install: "{{ package_install_default[ansible_os_family]|default_package_install[ansible_os_family] }}"
 
   children:
 
