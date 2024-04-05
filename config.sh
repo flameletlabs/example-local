@@ -7,7 +7,7 @@ CFG_TENANT="example-local"
 # CFG_SSH_OPTIONS="-i ${HOME}/.ssh/ansible/id_rsa"
 
 CFG_ANSIBLE_PACKAGE="ansible-core"
-CFG_ANSIBLE_VERSION="2.16.4"
+CFG_ANSIBLE_VERSION="2.16.5"
 
 CFG_FLAMELET_TENANT_REPO="git@github.com:flameletlabs/example-local.git"
 CFG_FLAMELET_TENANT_BRANCH="main"
