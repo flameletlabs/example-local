@@ -63,6 +63,7 @@ all:
     production:
 
       vars:
+        conf_sysupgrade: true # reboot OpenBSD when executing pre_tasks: sysupgrade
         update_reboot: yes
 
       hosts:
