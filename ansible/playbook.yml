@@ -41,6 +41,13 @@
     # - { role: checkmk.general.agent, tags: [ checkmk-agent ] }
     # - { role: checkmk.general.server, tags: [ checkmk-server ] }
 
+  pre_tasks:
+    - name: sysupgrade
+      community.general.sysupgrade: fetch_only=false
+      ignore_errors: true
+      when: conf_sysupgrade is defined and conf_sysupgrade == true
+      tags: [ 'pre', 'sysupgrade' ]
+
   post_tasks:
     - name: "Ansible | List all known variables and facts"
       debug:
@@ -202,13 +209,7 @@
       when: conf_lineinfile_changed.changed | bool and services_to_restart is defined
       tags: [ 'post', 'service', 'lineinfile' ]
 
-- hosts: "{{ groups['all'] | selectattr('ansible_os_family', 'equalto', 'OpenBSD') | map('extract', hostvars, 'inventory_hostname') | list }}"
-  pre_tasks:
-    - name: sysupgrade
-      community.general.sysupgrade: fetch_only=false
-      ignore_errors: true
-      when: conf_sysupgrade is defined and conf_sysupgrade == true and ansible_os_family == 'OpenBSD'"
-      tags: [ 'pre', 'sysupgrade' ]
+# - hosts: "{{ groups['all'] | selectattr('ansible_os_family', 'equalto', 'OpenBSD') | map('extract', hostvars, 'inventory_hostname') | list }}"
 
 # - hosts: openwrt
 #   roles:
