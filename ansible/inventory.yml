@@ -63,6 +63,7 @@ all:
           192.168.190.172 controller-test-openbsd
         state: 'present'
         path: '/etc/hosts'
+    conf_blockinfile: "{{ conf_blockinfile_default|default([]) + conf_blockinfile_custom|default([]) }}"
 
   children:
 
