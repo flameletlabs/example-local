@@ -58,6 +58,12 @@ all:
 
     package_install: "{{ package_install_default[ansible_os_family]|default(default_package_install[ansible_os_family]) }}"
 
+    conf_blockinfile_default:
+      - block: |
+          192.168.190.172 controller-test-openbsd
+        state: 'present'
+        path: '/etc/hosts'
+
   children:
 
     production:
