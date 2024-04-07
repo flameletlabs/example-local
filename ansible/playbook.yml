@@ -17,9 +17,6 @@
 
     - role: singleplatform-eng.users
 
-    - { role: gantsign.oh-my-zsh, tags: [ ohmyzsh ], oh_my_zsh_zsh_path: '/usr/local/bin/zsh', when: "ansible_os_family == 'OpenBSD'" }
-    - { role: gantsign.oh-my-zsh, tags: [ ohmyzsh ], when: "ansible_os_family != 'OpenBSD'" }
-
     - { role: hifis.unattended_upgrades, tags: [ unattended ], when: "ansible_os_family == 'Debian'" }
 
     - { role: hspaans.package, tags: [ packages ] }

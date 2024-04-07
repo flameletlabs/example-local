@@ -37,7 +37,6 @@ CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
     buluma.update \
     ipr-cnrs.nftables \
     singleplatform-eng.users \
-    gantsign.oh-my-zsh \
     hifis.unattended_upgrades \
     hspaans.package,v1.0.4 \
     stafwag.package_update \
