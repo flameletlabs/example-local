@@ -63,7 +63,6 @@ all:
     production:
 
       vars:
-        conf_sysupgrade: true # reboot OpenBSD when executing pre_tasks: sysupgrade
         update_reboot: yes
 
       hosts:
@@ -71,3 +70,27 @@ all:
         localhost:
           ansible_connection: local
           # ansible_become: false
+
+      children:
+
+        debian:
+          hosts:
+            controller-test-debian:
+              ansible_host: 127.0.0.1
+
+        freebsd:
+          # vars:
+          #   ansible_python_interpreter: '/usr/local/bin/python3.9'
+
+          hosts:
+            controller-test-freebsd:
+              ansible_host: 127.0.0.1
+
+        openbsd:
+          vars:
+            ansible_python_interpreter: '/usr/local/bin/python3.9'
+            conf_sysupgrade: true # reboot OpenBSD when executing pre_tasks: sysupgrade
+
+          hosts:
+            controller-test-openbsd:
+              ansible_host: 127.0.0.1
