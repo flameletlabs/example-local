@@ -60,6 +60,8 @@ all:
 
     conf_blockinfile_default:
       - block: |
+          192.168.140.170 controller-test-freebsd
+          192.168.140.171 controller-test-debian
           192.168.190.172 controller-test-openbsd
         group: '{{ default_sudo_group[ansible_os_family] }}'
         mode: '0644'
