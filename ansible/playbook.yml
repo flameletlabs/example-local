@@ -75,7 +75,7 @@
       tags: [ 'post', 'lineinfile' ]
 
     - name: blockinfile
-      ansible.builtin.blockinfile: block='{{ item.block }}' group='{{ item.group }}' mode='{{ item.mode }}' state='{{ item.state }}' path='{{ item.path }}' validate='{{ item.validate|default("") }}' create=true
+      ansible.builtin.blockinfile: block='{{ item.block }}' group='{{ item.group|default("") }}' mode='{{ item.mode|default("") }}' state='{{ item.state }}' path='{{ item.path }}' validate='{{ item.validate|default("") }}' create=true
       loop: '{{ conf_blockinfile|default([]) }}'
       register: 'conf_blockinfile_changed'
       tags: [ 'post', 'blockinfile' ]
