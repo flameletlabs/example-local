@@ -86,8 +86,8 @@ all:
 
         debian:
           hosts:
-            controller-test-debian:
-              ansible_host: 127.0.0.1
+            # controller-test-debian:
+            #   ansible_host: 127.0.0.1
 
         freebsd:
           # vars:
@@ -103,5 +103,6 @@ all:
             conf_sysupgrade: true # reboot OpenBSD when executing pre_tasks: sysupgrade
 
           hosts:
-            controller-test-openbsd:
-              ansible_host: 127.0.0.1
+            # controller-test-openbsd:
+            #   ansible_host: 127.0.0.1
+
