@@ -86,8 +86,8 @@ all:
 
         debian:
           hosts:
-            # controller-test-debian:
-            #   ansible_host: 127.0.0.1
+            controller-test-debian:
+              ansible_host: 127.0.0.1
 
         freebsd:
           # vars:
