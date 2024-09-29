@@ -87,7 +87,7 @@ all:
         debian:
           hosts:
             controller-test-debian:
-              ansible_host: 127.0.0.1
+              ansible_connection: local
 
         freebsd:
           # vars:
@@ -95,7 +95,7 @@ all:
 
           hosts:
             controller-test-freebsd:
-              ansible_host: 127.0.0.1
+              ansible_connection: local
 
         openbsd:
           vars:
@@ -104,5 +104,5 @@ all:
 
           hosts:
             # controller-test-openbsd:
-            #   ansible_host: 127.0.0.1
+            #   ansible_connection: local
 
