@@ -1,54 +1,28 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
+#
+# Flamelet tenant configuration — example-local
+# This is a minimal example for local provisioning (no remote SSH needed).
 
+# Tenant name — used by flamelet to identify this configuration
 CFG_TENANT="example-local"
 
-# CFG_SSH_CONTROLLER="ansible@controller.local"
-# CFG_SSH_OPTIONS="-i ${HOME}/.ssh/ansible/id_rsa"
-
+# Ansible package and version to install in the virtual environment
 CFG_ANSIBLE_PACKAGE="ansible-core"
 CFG_ANSIBLE_VERSION="2.16.5"
 
+# Git repository for this tenant (used by 'flamelet update')
 CFG_FLAMELET_TENANT_REPO="git@github.com:flameletlabs/example-local.git"
 CFG_FLAMELET_TENANT_BRANCH="main"
 
-# CFG_ANSIBLE_INVENTORY_REPO=""
-# CFG_ANSIBLE_PLAYBOOK_REPO=""
-
+# Paths to ansible configuration files within the tenant directory
 CFG_ANSIBLE_CONFIG="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/ansible.cfg"
-
 CFG_ANSIBLE_INVENTORY="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/inventory.yml"
 CFG_ANSIBLE_PLAYBOOK="${HOME}/.flamelet/tenant/flamelet-example-local/ansible/playbook.yml"
 
-# CFG_ANSIBLE_OPTIONS="-u ansible --private-key ${HOME}/.ssh/id_rsa"
+# No SSH controller needed — this example runs locally only
+# CFG_SSH_CONTROLLER="ansible@controller.local"
 
-CFG_ANSIBLE_GALAXY_COLLECTIONS_INSTALL="\
-    ansible.posix \
-    community.general \
-    community.docker"
-
-# CFG_ANSIBLE_GALAXY_COLLECTIONS_REMOVE=""
-
-CFG_ANSIBLE_GALAXY_ROLES_INSTALL="\
-    buluma.bootstrap \
-    buluma.timezone \
-    buluma.rsyslog \
-    buluma.cron \
-    buluma.update \
-    ipr-cnrs.nftables \
-    singleplatform-eng.users \
-    hifis.unattended_upgrades \
-    hspaans.package,v1.0.4 \
-    stafwag.package_update \
-    trombik.apt_repo \
-    trombik.pf \
-    trombik.opensmtpd \
-    geerlingguy.ntp \
-    geerlingguy.pip \
-    geerlingguy.docker \
-    geerlingguy.nginx"
-
-    # grog.package \
-    # grog.sudo \
-
-# CFG_ANSIBLE_GALAXY_ROLES_REMOVE=""
+# No galaxy dependencies — this example is self-contained
+# CFG_ANSIBLE_GALAXY_COLLECTIONS_INSTALL=""
+# CFG_ANSIBLE_GALAXY_ROLES_INSTALL=""
